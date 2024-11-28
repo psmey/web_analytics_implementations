@@ -1,0 +1,17 @@
+{
+  "name": "Web Analytics Implementations",
+  "dockerFile": "Dockerfile",
+  "forwardPorts": [4200, 8080],
+  //"postStartCommand": "npm install && npm run start:container",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "yzhang.markdown-all-in-one",
+        "DavidAnson.vscode-markdownlint",
+        "Angular.ng-template",
+        "angular-schule.angular-schule-extension-pack",
+        "42Crunch.vscode-openapi"
+      ]
+    }
+  }
+}
