@@ -10,8 +10,6 @@ import {
 import { TaskCardComponent } from '../task-card/task-card.component';
 import { Task } from '../../models/task';
 
-type Schedule = Record<number, string[]>;
-
 @Component({
   selector: 'app-schedule',
   imports: [CdkDropList, CdkDrag, CdkDropListGroup, TaskCardComponent],
@@ -20,55 +18,40 @@ type Schedule = Record<number, string[]>;
 })
 export class ScheduleComponent {
   tasks: Task[] = [
-    {
-      title: 'Morning Meeting',
-      content: 'Discuss project goals and tasks for the day.',
-      startTime: '2024-12-01T09:00:00',
-      duration: 60, // 1 hour
-    },
-    {
-      title: 'Code Review',
-      content: 'Review the latest pull requests and provide feedback.',
-      startTime: '2024-12-01T11:00:00',
-      duration: 90, // 1.5 hours
-    },
-    {
-      title: 'Lunch Break',
-      content: 'Take a break for lunch and relaxation.',
-      startTime: '2024-12-01T12:30:00',
-      duration: 60, // 1 hour
-    },
-    {
-      title: 'Client Presentation',
-      content: 'Present the latest project update to the client.',
-      startTime: '2024-12-01T14:00:00',
-      duration: 120, // 2 hours
-    },
-    {
-      title: 'Team Sync-Up',
-      content: 'Discuss project progress and any blockers with the team.',
-      startTime: '2024-12-01T16:00:00',
-      duration: 30, // 30 minutes
-    },
+    // Define tasks as before
   ];
 
-  // Define working hours with some buffer for overtime (8 AM to 8 PM)
+  // Define working hours with 30-minute intervals
   hours = Array.from({ length: 13 }, (_, i) => i + 8); // 8 to 20
 
-  schedule: Schedule = {
-    8: [],
-    9: ['Morning Meeting'],
-    10: [],
-    11: ['Code Review'],
-    12: [],
-    13: ['Lunch Break'],
-    14: ['Client Presentation'],
-    15: [],
-    16: ['Team Sync-Up'],
-    17: [],
-    18: [],
-    19: [],
-    20: [],
+  // Updated schedule object for 30-minute intervals
+  schedule: Record<string, string[]> = {
+    '8_00': [],
+    '8_30': [],
+    '9_00': ['Morning Meeting'],
+    '9_30': [],
+    '10_00': [],
+    '10_30': [],
+    '11_00': ['Code Review'],
+    '11_30': [],
+    '12_00': [],
+    '12_30': ['Lunch Break'],
+    '13_00': [],
+    '13_30': [],
+    '14_00': ['Client Presentation'],
+    '14_30': [],
+    '15_00': [],
+    '15_30': [],
+    '16_00': ['Team Sync-Up'],
+    '16_30': [],
+    '17_00': [],
+    '17_30': [],
+    '18_00': [],
+    '18_30': [],
+    '19_00': [],
+    '19_30': [],
+    '20_00': [],
+    '20_30': [],
   };
 
   protected drop(event: CdkDragDrop<string[]>) {
