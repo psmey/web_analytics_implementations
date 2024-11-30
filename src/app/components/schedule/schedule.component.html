@@ -1,1 +1,19 @@
-<p>schedule works!</p>
+<h2>Schedule</h2>
+
+<div cdkDropListGroup>
+  @for (hour of hours; track hour) {
+    <div class="example-container">
+      <p>{{ hour }}:00</p>
+
+      <div
+        cdkDropList
+        [cdkDropListData]="schedule[hour]"
+        (cdkDropListDropped)="drop($event)"
+        class="example-list">
+        @for (item of schedule[hour]; track item) {
+          <div class="example-box" cdkDrag>{{ item }}</div>
+        }
+      </div>
+    </div>
+  }
+</div>
