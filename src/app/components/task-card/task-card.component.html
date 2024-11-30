@@ -1,0 +1,14 @@
+<mat-card appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>{{ task.title }}</mat-card-title>
+    <mat-card-subtitle>
+      <p>{{ task.startTime | date: 'EEEE dd.MM.yyyy HH:mm' }}</p>
+      <p>Duration: {{ formatDuration(task.duration) }}</p>
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <p>
+      {{ task.content }}
+    </p>
+  </mat-card-content>
+</mat-card>
