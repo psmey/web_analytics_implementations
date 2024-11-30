@@ -1,17 +1,14 @@
-<h2>Schedule</h2>
-
-<div cdkDropListGroup>
+<div class="schedule-container" cdkDropListGroup>
   @for (hour of hours; track hour) {
-    <div class="example-container">
-      <p>{{ hour }}:00</p>
-
+    <div class="schedule-slot">
+      <div class="schedule-hour-label">{{ hour }}:00</div>
       <div
         cdkDropList
         [cdkDropListData]="schedule[hour]"
         (cdkDropListDropped)="drop($event)"
-        class="example-list">
+        class="schedule-task-list">
         @for (item of schedule[hour]; track item) {
-          <div class="example-box" cdkDrag>{{ item }}</div>
+          <div class="schedule-task" cdkDrag>{{ item }}</div>
         }
       </div>
     </div>

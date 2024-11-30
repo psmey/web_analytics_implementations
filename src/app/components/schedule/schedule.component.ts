@@ -52,33 +52,23 @@ export class ScheduleComponent {
     },
   ];
 
-  hours = Array.from({ length: 24 }, (_, i) => i);
+  // Define working hours with some buffer for overtime (8 AM to 8 PM)
+  hours = Array.from({ length: 13 }, (_, i) => i + 8); // 8 to 20
 
   schedule: Schedule = {
-    0: [],
-    1: [],
-    2: ['Test 1'],
-    3: ['Test 2', 'Test 3'],
-    4: ['Test 4', 'Test 5'],
-    5: [],
-    6: [],
-    7: [],
     8: [],
-    9: [],
+    9: ['Morning Meeting'],
     10: [],
-    11: [],
+    11: ['Code Review'],
     12: [],
-    13: [],
-    14: [],
+    13: ['Lunch Break'],
+    14: ['Client Presentation'],
     15: [],
-    16: [],
+    16: ['Team Sync-Up'],
     17: [],
     18: [],
     19: [],
     20: [],
-    21: [],
-    22: [],
-    23: [],
   };
 
   protected drop(event: CdkDragDrop<string[]>) {
