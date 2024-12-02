@@ -13,10 +13,12 @@ export class EngineersComponent {
     { attribute: 'label', heading: 'Label' },
     { attribute: 'name', heading: 'Name' },
   ];
+
   projects = [
     {
-      label: 'IAA',
-      name: 'lel',
+      firstName: 'IAA',
+      lastName: 'lel',
+      number: 'lel',
     },
   ];
 }
