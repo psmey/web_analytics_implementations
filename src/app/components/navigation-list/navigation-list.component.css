@@ -1,0 +1,12 @@
+.active {
+  background-color: var(--mat-sys-primary-fixed-dim);
+}
+
+.active mat-icon {
+  color: var(--mat-sys-on-primary-fixed);
+}
+
+.active span {
+  font-weight: bold;
+  color: var(--mat-sys-on-primary-fixed);
+}
