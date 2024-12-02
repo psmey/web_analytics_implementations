@@ -1,0 +1,20 @@
+<div class="container">
+  <mat-toolbar class="color-primary color-on-primary">
+    <button mat-icon-button (click)="sidenav.toggle()" class="color-on-primary">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>Dispatching Client</span>
+  </mat-toolbar>
+
+  <mat-sidenav-container>
+    <mat-sidenav
+      #sidenav
+      mode="side"
+      class="color-primary-container color-on-primary-container">
+      Start
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <app-technicians></app-technicians>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

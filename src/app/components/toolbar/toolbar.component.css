@@ -1,0 +1,46 @@
+/* Use flexbox to make the entire page a flex container */
+.container {
+  /* Ensure the whole page takes up the full height */
+  height: 100%;
+  /* Stack children vertically */
+  display: flex;
+  flex-direction: column;
+}
+
+/* mat-toolbar will take its natural height, and mat-sidenav-container will take the rest */
+mat-toolbar {
+  /* The toolbar will take its natural height and can grow or shrink */
+  flex: 0 1 auto;
+}
+
+/* mat-sidenav-container will take the remaining space after the toolbar */
+mat-sidenav-container {
+  display: flex;
+  /* Take up the remaining space */
+  flex: 1 1 auto;
+}
+
+/* mat-sidenav-content will take the remaining space within mat-sidenav-container */
+mat-sidenav-content {
+  padding: 1rem;
+  /* Take up all remaining space */
+  flex: 1;
+  /* Add scrolling if content overflows */
+  overflow: auto;
+}
+
+.color-primary {
+  background-color: var(--mat-sys-primary);
+}
+
+.color-on-primary {
+  color: var(--mat-sys-on-primary);
+}
+
+.color-primary-container {
+  background-color: var(--mat-sys-primary-container);
+}
+
+.color-on-primary-container {
+  color: var(--mat-sys-on-primary-container);
+}
