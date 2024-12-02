@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { TechniciansComponent } from '../../pages/technicians/technicians.component';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-toolbar',
@@ -12,7 +13,9 @@ import { TechniciansComponent } from '../../pages/technicians/technicians.compon
     MatButtonModule,
     MatIconModule,
     MatSidenavModule,
-    TechniciansComponent,
+    RouterOutlet,
+    MatListModule,
+    MatIconModule,
   ],
   templateUrl: './toolbar.component.html',
   styleUrl: './toolbar.component.css',
