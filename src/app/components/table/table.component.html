@@ -1,1 +1,22 @@
-<p>table works!</p>
+<mat-form-field>
+  <mat-label>Search</mat-label>
+  <input matInput (keyup)="applyFilter($event)" />
+</mat-form-field>
+
+<table mat-table [dataSource]="dataSource" matSort>
+  @for (column of displayedColumns; track column) {
+    <ng-container matColumnDef="{{ column.attribute }}">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ column.heading }}
+      </th>
+      <td mat-cell *matCellDef="let cell">{{ cell[column.attribute] }}</td>
+    </ng-container>
+  }
+
+  <tr mat-header-row *matHeaderRowDef="headerRows"></tr>
+  <tr
+    mat-row
+    *matRowDef="let row; columns: headerRows"
+    [ngClass]="enableRowClick ? 'clickable' : ''"
+    (click)="onRowClick(row)"></tr>
+</table>
