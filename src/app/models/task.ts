@@ -1,6 +1,13 @@
+import { Adress } from './adress';
+import { Contact } from './contact';
+import { Engineer } from './engineer';
+
 export interface Task {
   title: string;
-  content: string;
+  description: string;
   startTime: string;
-  duration: number;
+  durationInMinutes: number;
+  contact: Contact;
+  location: Adress;
+  assingedEngineer?: Engineer;
 }
