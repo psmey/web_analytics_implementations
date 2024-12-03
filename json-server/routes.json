@@ -1,4 +1,6 @@
 {
   "/api/engineers": "/engineers",
-  "/api/tasks": "/tasks"
+  "/api/engineers/:id": "/engineers/:id",
+  "/api/tasks/": "/tasks",
+  "/api/tasks/:id": "/tasks/:id"
 }

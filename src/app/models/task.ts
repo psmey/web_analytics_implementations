@@ -1,4 +1,4 @@
-import { Adress } from './adress';
+import { Address } from './adress';
 import { Contact } from './contact';
 import { Engineer } from './engineer';
 
@@ -8,6 +8,6 @@ export interface Task {
   startTime: string;
   durationInMinutes: number;
   contact: Contact;
-  location: Adress;
+  location: Address;
   assingedEngineer?: Engineer;
 }
