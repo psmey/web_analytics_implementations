@@ -13,6 +13,10 @@ mat-toolbar {
   flex: 0 1 auto;
 }
 
+mat-sidenav {
+  width: 14rem;
+}
+
 /* mat-sidenav-container will take the remaining space after the toolbar */
 mat-sidenav-container {
   display: flex;
