@@ -69,7 +69,8 @@
               "buildTarget": "web_analytics_implementations:build:production"
             },
             "development": {
-              "buildTarget": "web_analytics_implementations:build:development"
+              "buildTarget": "web_analytics_implementations:build:development",
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"
