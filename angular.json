@@ -50,7 +50,7 @@
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.template.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "with": "src/environments/environment.production.ts"
                 }
               ]
             },
@@ -61,7 +61,7 @@
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.template.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "with": "src/environments/environment.development.ts"
                 }
               ]
             }
@@ -75,8 +75,7 @@
               "buildTarget": "web_analytics_implementations:build:production"
             },
             "development": {
-              "buildTarget": "web_analytics_implementations:build:development",
-              "proxyConfig": "proxy.conf.json"
+              "buildTarget": "web_analytics_implementations:build:development"
             }
           },
           "defaultConfiguration": "development"
