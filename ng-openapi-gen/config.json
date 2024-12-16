@@ -1,0 +1,8 @@
+{
+  "input": "ng-openapi-gen/openapi.yml",
+  "output": "src/app/api",
+  "templates": "ng-openapi-gen/templates",
+  "includeTags": [
+    "Resource"
+  ]
+}
