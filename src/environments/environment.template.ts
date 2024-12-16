@@ -4,5 +4,8 @@
  */
 
 export const environment = {
-  apiUrl: '',
+  API_URL: '',
+  TOKEN_URL: '',
+  CLIENT_ID: '',
+  CLIENT_SECRET: '',
 };
