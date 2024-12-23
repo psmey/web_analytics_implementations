@@ -7,13 +7,18 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { Resource } from '../../models/resource';
+import { IDsResourceId } from '../../models/i-ds-resource-id';
+import { OutgoingResource } from '../../models/outgoing-resource';
 
 export interface ResourceGetResource$Params {
-  resourceId: string;
+
+/**
+ * Parameter within the path for the id of an resource.
+ */
+  resourceId: IDsResourceId;
 }
 
-export function resourceGetResource(http: HttpClient, rootUrl: string, params: ResourceGetResource$Params, context?: HttpContext): Observable<StrictHttpResponse<Resource>> {
+export function resourceGetResource(http: HttpClient, rootUrl: string, params: ResourceGetResource$Params, context?: HttpContext): Observable<StrictHttpResponse<OutgoingResource>> {
   const rb = new RequestBuilder(rootUrl, resourceGetResource.PATH, 'get');
   if (params) {
     rb.path('resourceId', params.resourceId, {});
@@ -24,9 +29,9 @@ export function resourceGetResource(http: HttpClient, rootUrl: string, params: R
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Resource>;
+      return r as StrictHttpResponse<OutgoingResource>;
     })
   );
 }
 
-resourceGetResource.PATH = '/v1-alpha/resources/{resourceId}';
+resourceGetResource.PATH = '/v1/resources/{resourceId}';

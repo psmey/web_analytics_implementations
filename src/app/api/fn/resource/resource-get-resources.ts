@@ -7,7 +7,7 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { Resource } from '../../models/resource';
+import { OutgoingResource } from '../../models/outgoing-resource';
 
 export interface ResourceGetResources$Params {
 
@@ -22,7 +22,7 @@ export interface ResourceGetResources$Params {
   pagesize?: number;
 }
 
-export function resourceGetResources(http: HttpClient, rootUrl: string, params?: ResourceGetResources$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Resource>>> {
+export function resourceGetResources(http: HttpClient, rootUrl: string, params?: ResourceGetResources$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<OutgoingResource>>> {
   const rb = new RequestBuilder(rootUrl, resourceGetResources.PATH, 'get');
   if (params) {
     rb.query('page', params.page, {});
@@ -34,9 +34,9 @@ export function resourceGetResources(http: HttpClient, rootUrl: string, params?:
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<Resource>>;
+      return r as StrictHttpResponse<Array<OutgoingResource>>;
     })
   );
 }
 
-resourceGetResources.PATH = '/v1-alpha/resources';
+resourceGetResources.PATH = '/v1/resources';

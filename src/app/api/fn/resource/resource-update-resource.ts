@@ -7,15 +7,20 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { Resource } from '../../models/resource';
+import { IDsResourceId } from '../../models/i-ds-resource-id';
+import { IncomingResource } from '../../models/incoming-resource';
 
 export interface ResourceUpdateResource$Params {
-  resourceId: string;
+
+/**
+ * Parameter within the path for the id of an resource.
+ */
+  resourceId: IDsResourceId;
   
     /**
      * Resource to be updated.
      */
-    body: Resource
+    body: IncomingResource
 }
 
 export function resourceUpdateResource(http: HttpClient, rootUrl: string, params: ResourceUpdateResource$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
@@ -35,4 +40,4 @@ export function resourceUpdateResource(http: HttpClient, rootUrl: string, params
   );
 }
 
-resourceUpdateResource.PATH = '/v1-alpha/resources/{resourceId}';
+resourceUpdateResource.PATH = '/v1/resources/{resourceId}';

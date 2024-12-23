@@ -10,7 +10,7 @@ import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
-import { Resource } from '../models/resource';
+import { OutgoingResource } from '../models/outgoing-resource';
 import { resourceCreateResource } from '../fn/resource/resource-create-resource';
 import { ResourceCreateResource$Params } from '../fn/resource/resource-create-resource';
 import { resourceDeleteResource } from '../fn/resource/resource-delete-resource';
@@ -29,7 +29,7 @@ export class ResourceService extends BaseService {
   }
 
   /** Path part for operation `resourceGetResources()` */
-  static readonly ResourceGetResourcesPath = '/v1-alpha/resources';
+  static readonly ResourceGetResourcesPath = '/v1/resources';
 
   /**
    * Get a list of resources.
@@ -41,7 +41,7 @@ export class ResourceService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  resourceGetResources$Response(params?: ResourceGetResources$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Resource>>> {
+  resourceGetResources$Response(params?: ResourceGetResources$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<OutgoingResource>>> {
     return resourceGetResources(this.http, this.rootUrl, params, context);
   }
 
@@ -55,14 +55,14 @@ export class ResourceService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  resourceGetResources(params?: ResourceGetResources$Params, context?: HttpContext): Observable<Array<Resource>> {
+  resourceGetResources(params?: ResourceGetResources$Params, context?: HttpContext): Observable<Array<OutgoingResource>> {
     return this.resourceGetResources$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<Resource>>): Array<Resource> => r.body)
+      map((r: StrictHttpResponse<Array<OutgoingResource>>): Array<OutgoingResource> => r.body)
     );
   }
 
   /** Path part for operation `resourceCreateResource()` */
-  static readonly ResourceCreateResourcePath = '/v1-alpha/resources';
+  static readonly ResourceCreateResourcePath = '/v1/resources';
 
   /**
    * Create a new resource.
@@ -74,7 +74,7 @@ export class ResourceService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  resourceCreateResource$Response(params: ResourceCreateResource$Params, context?: HttpContext): Observable<StrictHttpResponse<Resource>> {
+  resourceCreateResource$Response(params: ResourceCreateResource$Params, context?: HttpContext): Observable<StrictHttpResponse<OutgoingResource>> {
     return resourceCreateResource(this.http, this.rootUrl, params, context);
   }
 
@@ -88,14 +88,14 @@ export class ResourceService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  resourceCreateResource(params: ResourceCreateResource$Params, context?: HttpContext): Observable<Resource> {
+  resourceCreateResource(params: ResourceCreateResource$Params, context?: HttpContext): Observable<OutgoingResource> {
     return this.resourceCreateResource$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Resource>): Resource => r.body)
+      map((r: StrictHttpResponse<OutgoingResource>): OutgoingResource => r.body)
     );
   }
 
   /** Path part for operation `resourceGetResource()` */
-  static readonly ResourceGetResourcePath = '/v1-alpha/resources/{resourceId}';
+  static readonly ResourceGetResourcePath = '/v1/resources/{resourceId}';
 
   /**
    * Get the resource with the specified id.
@@ -107,7 +107,7 @@ export class ResourceService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  resourceGetResource$Response(params: ResourceGetResource$Params, context?: HttpContext): Observable<StrictHttpResponse<Resource>> {
+  resourceGetResource$Response(params: ResourceGetResource$Params, context?: HttpContext): Observable<StrictHttpResponse<OutgoingResource>> {
     return resourceGetResource(this.http, this.rootUrl, params, context);
   }
 
@@ -121,14 +121,14 @@ export class ResourceService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  resourceGetResource(params: ResourceGetResource$Params, context?: HttpContext): Observable<Resource> {
+  resourceGetResource(params: ResourceGetResource$Params, context?: HttpContext): Observable<OutgoingResource> {
     return this.resourceGetResource$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Resource>): Resource => r.body)
+      map((r: StrictHttpResponse<OutgoingResource>): OutgoingResource => r.body)
     );
   }
 
   /** Path part for operation `resourceUpdateResource()` */
-  static readonly ResourceUpdateResourcePath = '/v1-alpha/resources/{resourceId}';
+  static readonly ResourceUpdateResourcePath = '/v1/resources/{resourceId}';
 
   /**
    * Update an resource.
@@ -161,7 +161,7 @@ export class ResourceService extends BaseService {
   }
 
   /** Path part for operation `resourceDeleteResource()` */
-  static readonly ResourceDeleteResourcePath = '/v1-alpha/resources/{resourceId}';
+  static readonly ResourceDeleteResourcePath = '/v1/resources/{resourceId}';
 
   /**
    * Delete the resource with the specified id.

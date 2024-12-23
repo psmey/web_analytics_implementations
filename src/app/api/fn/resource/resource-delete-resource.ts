@@ -7,9 +7,14 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
+import { IDsResourceId } from '../../models/i-ds-resource-id';
 
 export interface ResourceDeleteResource$Params {
-  resourceId: string;
+
+/**
+ * Parameter within the path for the id of an resource.
+ */
+  resourceId: IDsResourceId;
 }
 
 export function resourceDeleteResource(http: HttpClient, rootUrl: string, params: ResourceDeleteResource$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
@@ -28,4 +33,4 @@ export function resourceDeleteResource(http: HttpClient, rootUrl: string, params
   );
 }
 
-resourceDeleteResource.PATH = '/v1-alpha/resources/{resourceId}';
+resourceDeleteResource.PATH = '/v1/resources/{resourceId}';

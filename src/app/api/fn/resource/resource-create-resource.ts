@@ -7,17 +7,18 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { Resource } from '../../models/resource';
+import { IncomingResource } from '../../models/incoming-resource';
+import { OutgoingResource } from '../../models/outgoing-resource';
 
 export interface ResourceCreateResource$Params {
   
     /**
      * Resource to be created.
      */
-    body: Resource
+    body: IncomingResource
 }
 
-export function resourceCreateResource(http: HttpClient, rootUrl: string, params: ResourceCreateResource$Params, context?: HttpContext): Observable<StrictHttpResponse<Resource>> {
+export function resourceCreateResource(http: HttpClient, rootUrl: string, params: ResourceCreateResource$Params, context?: HttpContext): Observable<StrictHttpResponse<OutgoingResource>> {
   const rb = new RequestBuilder(rootUrl, resourceCreateResource.PATH, 'post');
   if (params) {
     rb.body(params.body, 'application/json');
@@ -28,9 +29,9 @@ export function resourceCreateResource(http: HttpClient, rootUrl: string, params
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Resource>;
+      return r as StrictHttpResponse<OutgoingResource>;
     })
   );
 }
 
-resourceCreateResource.PATH = '/v1-alpha/resources';
+resourceCreateResource.PATH = '/v1/resources';

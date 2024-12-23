@@ -10,4 +10,4 @@
  * <li>HIGH</li>
  * </ul>
  */
-export type SkillProficiencyLevelEnum = string;
+export type EnumSkillProficiencyLevelEnum = string;

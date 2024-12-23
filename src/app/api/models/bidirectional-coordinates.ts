@@ -5,7 +5,7 @@
 /**
  * Coordinates of the location.
  */
-export interface Coordinates {
+export interface BidirectionalCoordinates {
 
   /**
    * Latitude of the location. Relevant for scheduling.
