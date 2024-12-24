@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import { AuthService } from './services/auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -7,6 +8,10 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
-export class AppComponent {
-  title = 'web_analytics_implementations';
+export class AppComponent implements OnInit {
+  private readonly authService: AuthService = inject(AuthService);
+
+  async ngOnInit(): Promise<void> {
+    await this.authService.setToken();
+  }
 }
