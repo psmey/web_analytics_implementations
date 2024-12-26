@@ -1,23 +1,13 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { Spectator, createComponentFactory } from '@ngneat/spectator/jest';
 import { AddButtonComponent } from './add-button.component';
 
 describe('AddButtonComponent', () => {
-  let component: AddButtonComponent;
-  let fixture: ComponentFixture<AddButtonComponent>;
+  let spectator: Spectator<AddButtonComponent<unknown, unknown>>;
+  const createComponent = createComponentFactory(AddButtonComponent);
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [AddButtonComponent]
-    })
-    .compileComponents();
-
-    fixture = TestBed.createComponent(AddButtonComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  beforeEach(() => (spectator = createComponent()));
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(spectator.component).toBeTruthy();
   });
 });

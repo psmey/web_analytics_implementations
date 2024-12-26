@@ -1,16 +1,17 @@
-import { TestBed } from '@angular/core/testing';
-
+import { provideHttpClient } from '@angular/common/http';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { AuthService } from './auth.service';
 
 describe('AuthService', () => {
-  let service: AuthService;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(AuthService);
+  let spectator: SpectatorService<AuthService>;
+  const createService = createServiceFactory({
+    service: AuthService,
+    providers: [provideHttpClient()],
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
+  beforeEach(() => (spectator = createService()));
+
+  it('should create', () => {
+    expect(spectator.service).toBeTruthy();
   });
 });
