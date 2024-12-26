@@ -22,8 +22,8 @@ export class NavigationListComponent {
       icon: 'list_alt',
     },
     {
-      heading: 'Engineers',
-      path: 'engineers',
+      heading: 'Resources',
+      path: 'resources',
       icon: 'engineering',
     },
   ];
