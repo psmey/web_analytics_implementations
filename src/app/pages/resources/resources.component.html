@@ -1,5 +1,6 @@
 <h1>Resources</h1>
 
-<app-add-button
-  [dialogComponent]="dialogComponent"
-  [addFunction]="addResource"></app-add-button>
+<button mat-fab extended (click)="openDialog()" class="color-primary">
+  <mat-icon>add</mat-icon>
+  Create
+</button>
