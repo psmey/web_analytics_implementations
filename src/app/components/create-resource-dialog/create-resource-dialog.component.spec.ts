@@ -1,22 +1,13 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { Spectator, createComponentFactory } from '@ngneat/spectator/jest';
 import { CreateResourceDialogComponent } from './create-resource-dialog.component';
 
 describe('CreateResourceDialogComponent', () => {
-  let component: CreateResourceDialogComponent;
-  let fixture: ComponentFixture<CreateResourceDialogComponent>;
+  let spectator: Spectator<CreateResourceDialogComponent>;
+  const createComponent = createComponentFactory(CreateResourceDialogComponent);
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [CreateResourceDialogComponent],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(CreateResourceDialogComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  beforeEach(() => (spectator = createComponent()));
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(spectator.component).toBeTruthy();
   });
 });

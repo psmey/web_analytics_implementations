@@ -1,22 +1,18 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { provideHttpClient } from '@angular/common/http';
+import { Spectator, createComponentFactory } from '@ngneat/spectator/jest';
 import { ResourcesComponent } from './resources.component';
 
 describe('ResourcesComponent', () => {
-  let component: ResourcesComponent;
-  let fixture: ComponentFixture<ResourcesComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [ResourcesComponent],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(ResourcesComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  let spectator: Spectator<ResourcesComponent>;
+  const createComponent = createComponentFactory({
+    component: ResourcesComponent,
+    providers: [provideHttpClient()],
+    detectChanges: false,
   });
 
+  beforeEach(() => (spectator = createComponent()));
+
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(spectator.component).toBeTruthy();
   });
 });
