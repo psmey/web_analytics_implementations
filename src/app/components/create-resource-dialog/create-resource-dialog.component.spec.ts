@@ -56,6 +56,7 @@ describe('CreateResourceDialogComponent', () => {
       );
 
       formGroup.patchValue(mockFormGroupValue);
+      spectator.detectChanges();
       spectator.click(button!);
 
       expect(matDialogRef.close).toHaveBeenCalledWith('');
@@ -77,6 +78,7 @@ describe('CreateResourceDialogComponent', () => {
       );
 
       formGroup.patchValue(mockFormGroupValue);
+      spectator.detectChanges();
       spectator.click(button!);
 
       expect(matDialogRef.close).toHaveBeenCalledWith(mockFormGroupValue);
