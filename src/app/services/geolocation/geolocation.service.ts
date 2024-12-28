@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { firstValueFrom, map } from 'rxjs';
 import { BidirectionalCoordinates } from '../../api/models';
 import { Address } from '../../models/address';
 import { openStreetMapResponse } from '../../models/osmCoordinatesResponse';
@@ -17,30 +17,34 @@ export class GeolocationService {
 
   private readonly httpClient: HttpClient = inject(HttpClient);
 
-  public toCoordinates(address: Address): Observable<BidirectionalCoordinates> {
-    return this.httpClient
-      .get<openStreetMapResponse>(this.URL, {
-        params: { ...address, ...this.params },
-      })
-      .pipe(
-        map(
-          (response: openStreetMapResponse) =>
-            ({
-              longitude: parseFloat(response.lat),
-              latitude: parseFloat(response.lon),
-            }) as BidirectionalCoordinates
+  public toCoordinates(address: Address): Promise<BidirectionalCoordinates> {
+    return firstValueFrom(
+      this.httpClient
+        .get<openStreetMapResponse[]>(this.URL, {
+          params: { ...address, ...this.params },
+        })
+        .pipe(
+          map(
+            (response: openStreetMapResponse[]) =>
+              ({
+                longitude: parseFloat(response[0].lat),
+                latitude: parseFloat(response[0].lon),
+              }) as BidirectionalCoordinates
+          )
         )
-      );
+    );
   }
 
-  public toAdress(coordinates: BidirectionalCoordinates): Observable<string> {
-    return this.httpClient
-      .get<openStreetMapResponse>(this.URL, {
-        params: {
-          q: `${coordinates.longitude} ${coordinates.latitude}`,
-          ...this.params,
-        },
-      })
-      .pipe(map((response: openStreetMapResponse) => response.displayName));
+  public toAdress(coordinates: BidirectionalCoordinates): Promise<string> {
+    return firstValueFrom(
+      this.httpClient
+        .get<openStreetMapResponse>(this.URL, {
+          params: {
+            q: `${coordinates.longitude} ${coordinates.latitude}`,
+            ...this.params,
+          },
+        })
+        .pipe(map((response: openStreetMapResponse) => response.displayName))
+    );
   }
 }
