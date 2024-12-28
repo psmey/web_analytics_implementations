@@ -23,8 +23,24 @@ import { MatInputModule } from '@angular/material/input';
   styleUrl: './create-resource-dialog.component.css',
 })
 export class CreateResourceDialogComponent {
-  readonly formGroup: FormGroup = new FormGroup({
+  readonly formGroup = new FormGroup({
     id: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    street: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    city: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    country: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    postalcode: new FormControl('', {
       nonNullable: true,
       validators: [Validators.required],
     }),
