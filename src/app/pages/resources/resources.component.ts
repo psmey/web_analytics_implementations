@@ -11,20 +11,23 @@ import {
 } from '../../api/models';
 import { ResourceService } from '../../api/services';
 import { CreateResourceDialogComponent } from '../../components/create-resource-dialog/create-resource-dialog.component';
+import { TableComponent } from '../../components/table/table.component';
 import { Address } from '../../models/address';
+import { DisplayedResource } from '../../models/displayedResource';
 import { ReadableResource } from '../../models/readableResource';
 import { GeolocationService } from '../../services/geolocation/geolocation.service';
 
 @Component({
   selector: 'app-resources',
-  imports: [MatIconModule, MatButtonModule],
+  imports: [MatIconModule, MatButtonModule, TableComponent],
   templateUrl: './resources.component.html',
   styleUrl: './resources.component.css',
 })
 export class ResourcesComponent implements OnInit {
   protected readonly dialogComponent: ComponentType<CreateResourceDialogComponent> =
     CreateResourceDialogComponent;
-  protected resources: OutgoingResource[] = [];
+  protected resources: DisplayedResource[] = [];
+  protected readonly columns: string[] = ['id', 'address'];
 
   private readonly matDialog: MatDialog = inject(MatDialog);
   private readonly resourceService: ResourceService = inject(ResourceService);
@@ -46,13 +49,13 @@ export class ResourcesComponent implements OnInit {
       .afterClosed()
       .subscribe(async (readableResource: ReadableResource | undefined) => {
         if (readableResource) {
-          const resource = await this.parseResource(readableResource);
+          const resource = await this.toIncomingResource(readableResource);
           this.addResource(resource);
         }
       });
   }
 
-  protected addResource(resource: IncomingResource): void {
+  private addResource(resource: IncomingResource): void {
     this.resourceService
       .resourceCreateResource({ body: resource })
       .pipe(tap(() => this.loadResources()))
@@ -62,18 +65,16 @@ export class ResourcesComponent implements OnInit {
   private loadResources(): void {
     this.resourceService
       .resourceGetResources()
-      .subscribe(
-        (resources: OutgoingResource[]) => (this.resources = resources)
-      );
+      .subscribe(async (resources: OutgoingResource[]) => {
+        this.resources = await this.toReadableResource(resources);
+      });
   }
 
-  private async parseResource(
+  private async toIncomingResource(
     resource: ReadableResource
   ): Promise<IncomingResource> {
     const address: Address = {
-      street: resource.street,
-      city: resource.city,
-      country: resource.country,
+      ...resource,
       postalcode: parseInt(resource.postalcode),
     };
 
@@ -84,5 +85,18 @@ export class ResourcesComponent implements OnInit {
       id: resource.id,
       coordinates: coordinates,
     };
+  }
+
+  private async toReadableResource(
+    resources: OutgoingResource[]
+  ): Promise<DisplayedResource[]> {
+    return Promise.all(
+      resources.map(async (resource: OutgoingResource) => {
+        return {
+          id: resource.id,
+          address: await this.geolocationService.toAdress(resource.coordinates),
+        };
+      })
+    );
   }
 }
