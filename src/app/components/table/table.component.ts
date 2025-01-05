@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
-import { TableColumn } from '../../models/tableColumn';
 
 @Component({
   selector: 'app-table',
@@ -11,6 +10,5 @@ import { TableColumn } from '../../models/tableColumn';
 })
 export class TableComponent<TData> {
   @Input({ required: true }) dataSource!: TData[];
-  @Input({ required: true }) columns!: TableColumn[];
-  @Input({ required: true }) displayedColumns!: string[];
+  @Input({ required: true }) columns!: string[];
 }
