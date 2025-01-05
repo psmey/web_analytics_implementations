@@ -38,13 +38,15 @@ export class GeolocationService {
   public toAdress(coordinates: BidirectionalCoordinates): Promise<string> {
     return firstValueFrom(
       this.httpClient
-        .get<openStreetMapResponse>(this.URL, {
+        .get<openStreetMapResponse[]>(this.URL, {
           params: {
-            q: `${coordinates.longitude} ${coordinates.latitude}`,
+            q: `${coordinates.latitude} ${coordinates.longitude}`,
             ...this.params,
           },
         })
-        .pipe(map((response: openStreetMapResponse) => response.displayName))
+        .pipe(
+          map((response: openStreetMapResponse[]) => response[0].display_name)
+        )
     );
   }
 }
