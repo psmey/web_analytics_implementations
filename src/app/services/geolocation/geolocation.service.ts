@@ -27,8 +27,8 @@ export class GeolocationService {
           map(
             (response: openStreetMapResponse[]) =>
               ({
-                longitude: parseFloat(response[0].lat),
-                latitude: parseFloat(response[0].lon),
+                longitude: parseFloat(response[0].lon),
+                latitude: parseFloat(response[0].lat),
               }) as BidirectionalCoordinates
           )
         )
