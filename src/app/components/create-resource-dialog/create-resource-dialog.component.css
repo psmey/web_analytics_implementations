@@ -1,8 +1,4 @@
 mat-form-field {
   margin: .5rem;
-}
-
-.color-error {
-  background-color: var(--mat-sys-error);
-  color: var(--mat-sys-on-error);
+  width: 14rem;
 }
