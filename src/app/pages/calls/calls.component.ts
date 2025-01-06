@@ -1,5 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { OutgoingCall } from '../../api/models';
+import { tap } from 'rxjs';
+import { IncomingCall, OutgoingCall } from '../../api/models';
 import { CallService } from '../../api/services/call.service';
 import { TableComponent } from '../../components/table/table.component';
 
@@ -23,5 +24,12 @@ export class CallsComponent implements OnInit {
     this.callService
       .callGetCalls()
       .subscribe((calls: OutgoingCall[]) => (this.calls = calls));
+  }
+
+  private addCall(call: IncomingCall) {
+    this.callService
+      .callCreateCall({ body: call })
+      .pipe(tap(() => this.loadCalls()))
+      .subscribe();
   }
 }
