@@ -12,14 +12,9 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 export class NavigationListComponent {
   readonly links = [
     {
-      heading: 'Schedules',
-      path: 'schedules',
+      heading: 'Calls',
+      path: 'calls',
       icon: 'calendar_month',
-    },
-    {
-      heading: 'Tasks',
-      path: 'tasks',
-      icon: 'list_alt',
     },
     {
       heading: 'Resources',
