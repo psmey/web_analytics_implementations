@@ -1,5 +1,5 @@
 import { provideHttpClient } from '@angular/common/http';
-import { SpectatorService, createServiceFactory } from '@ngneat/spectator';
+import { SpectatorService, createServiceFactory } from '@ngneat/spectator/jest';
 import { GeolocationService } from './geolocation.service';
 
 describe('GeolocationService', () => {

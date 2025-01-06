@@ -66,7 +66,7 @@ export class ResourcesComponent implements OnInit {
     this.resourceService
       .resourceGetResources()
       .subscribe(async (resources: OutgoingResource[]) => {
-        this.resources = await this.toReadableResource(resources);
+        this.resources = await this.toReadableResources(resources);
       });
   }
 
@@ -87,7 +87,7 @@ export class ResourcesComponent implements OnInit {
     };
   }
 
-  private async toReadableResource(
+  private async toReadableResources(
     resources: OutgoingResource[]
   ): Promise<DisplayedResource[]> {
     return Promise.all(
