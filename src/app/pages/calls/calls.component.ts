@@ -1,29 +1,70 @@
+import { DatePipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 import { tap } from 'rxjs';
-import { IncomingCall, OutgoingCall } from '../../api/models';
+import {
+  BidirectionalCoordinates,
+  IncomingCall,
+  OutgoingCall,
+} from '../../api/models';
 import { CallService } from '../../api/services/call.service';
+import { CreateCallDialogComponent } from '../../components/create-call-dialog/create-call-dialog.component';
 import { TableComponent } from '../../components/table/table.component';
+import { Call } from '../../models/call';
+import { DisplayedCall } from '../../models/displayedCall';
+import { GeolocationService } from '../../services/geolocation/geolocation.service';
 
 @Component({
   selector: 'app-calls',
-  imports: [TableComponent],
+  imports: [MatIconModule, MatButtonModule, TableComponent],
   templateUrl: './calls.component.html',
   styleUrl: './calls.component.css',
 })
 export class CallsComponent implements OnInit {
-  protected calls: OutgoingCall[] = [];
-  protected readonly columns: string[] = [];
+  protected calls: DisplayedCall[] = [];
+  protected readonly columns: string[] = [
+    'id',
+    'address',
+    'startDate',
+    'endDate',
+    'duration',
+    'routeDate',
+  ];
 
   private readonly callService: CallService = inject(CallService);
+  private readonly matDialog: MatDialog = inject(MatDialog);
+  private readonly geolocationService: GeolocationService =
+    inject(GeolocationService);
+  private readonly datePipe: DatePipe = inject(DatePipe);
 
   public ngOnInit() {
     this.loadCalls();
   }
 
+  public openDialog(): void {
+    const dialogRef = this.matDialog.open<
+      CreateCallDialogComponent,
+      never,
+      Call
+    >(CreateCallDialogComponent);
+
+    dialogRef.afterClosed().subscribe(async (call: Call | undefined) => {
+      if (call) {
+        const incomingCall = await this.toIncomingCall(call);
+        this.addCall(incomingCall);
+      }
+    });
+  }
+
   private loadCalls() {
     this.callService
       .callGetCalls()
-      .subscribe((calls: OutgoingCall[]) => (this.calls = calls));
+      .subscribe(
+        async (calls: OutgoingCall[]) =>
+          (this.calls = await this.toDisplayedCalls(calls))
+      );
   }
 
   private addCall(call: IncomingCall) {
@@ -31,5 +72,36 @@ export class CallsComponent implements OnInit {
       .callCreateCall({ body: call })
       .pipe(tap(() => this.loadCalls()))
       .subscribe();
+  }
+
+  private async toIncomingCall(call: Call): Promise<IncomingCall> {
+    const coordinates: BidirectionalCoordinates =
+      await this.geolocationService.toCoordinates(call.address);
+
+    const incomingCall: IncomingCall = {
+      id: call.id,
+      coordinates,
+      timeRestrictions: call.timeRestrictions,
+    };
+
+    return incomingCall;
+  }
+
+  private async toDisplayedCalls(outgoingCalls: OutgoingCall[]) {
+    return Promise.all(
+      outgoingCalls.map(async outgoingCall => {
+        const address: string = await this.geolocationService.toAdress(
+          outgoingCall.coordinates
+        );
+
+        const displayedCall: DisplayedCall = {
+          ...outgoingCall,
+          ...outgoingCall.timeRestrictions,
+          address,
+        };
+
+        return displayedCall;
+      })
+    );
   }
 }
