@@ -3,6 +3,7 @@
   "output": "src/app/api",
   "templates": "ng-openapi-gen/templates",
   "includeTags": [
-    "Resource"
+    "Resource",
+    "Call"
   ]
 }
