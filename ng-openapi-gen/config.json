@@ -4,6 +4,7 @@
   "templates": "ng-openapi-gen/templates",
   "includeTags": [
     "Resource",
-    "Call"
+    "Call",
+    "Optimization"
   ]
 }
