@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
 import { CallService } from './services/call.service';
+import { OptimizationService } from './services/optimization.service';
 import { ResourceService } from './services/resource.service';
 
 /**
@@ -17,6 +18,7 @@ import { ResourceService } from './services/resource.service';
   declarations: [],
   providers: [
     CallService,
+    OptimizationService,
     ResourceService,
     ApiConfiguration
   ],
