@@ -15,7 +15,7 @@ import { TableComponent } from '../../components/table/table.component';
 import { Address } from '../../models/address';
 import { DisplayedResource } from '../../models/displayedResource';
 import { ReadableResource } from '../../models/readableResource';
-import { GeolocationService } from '../../services/geolocation/geolocation.service';
+import { GeocodingService } from '../../services/geocoding/geocoding.service';
 
 @Component({
   selector: 'app-resources',
@@ -31,8 +31,8 @@ export class ResourcesComponent implements OnInit {
 
   private readonly matDialog: MatDialog = inject(MatDialog);
   private readonly resourceService: ResourceService = inject(ResourceService);
-  private readonly geolocationService: GeolocationService =
-    inject(GeolocationService);
+  private readonly geocodingService: GeocodingService =
+    inject(GeocodingService);
 
   public ngOnInit(): void {
     this.loadResources();
@@ -79,7 +79,7 @@ export class ResourcesComponent implements OnInit {
     };
 
     const coordinates: BidirectionalCoordinates =
-      await this.geolocationService.toCoordinates(address);
+      await this.geocodingService.toCoordinates(address);
 
     return {
       id: resource.id,
@@ -94,7 +94,7 @@ export class ResourcesComponent implements OnInit {
       resources.map(async (resource: OutgoingResource) => {
         return {
           id: resource.id,
-          address: await this.geolocationService.toAdress(resource.coordinates),
+          address: await this.geocodingService.toAdress(resource.coordinates),
         };
       })
     );

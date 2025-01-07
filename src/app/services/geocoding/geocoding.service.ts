@@ -8,7 +8,7 @@ import { openStreetMapResponse } from '../../models/osmCoordinatesResponse';
 @Injectable({
   providedIn: 'root',
 })
-export class GeolocationService {
+export class GeocodingService {
   private readonly URL = 'https://nominatim.openstreetmap.org/search.php';
   private readonly params = {
     polygon_geojson: 1,

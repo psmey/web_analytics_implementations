@@ -1,11 +1,11 @@
 import { provideHttpClient } from '@angular/common/http';
 import { SpectatorService, createServiceFactory } from '@ngneat/spectator/jest';
-import { GeolocationService } from './geolocation.service';
+import { GeocodingService } from './geocoding.service';
 
-describe('GeolocationService', () => {
-  let spectator: SpectatorService<GeolocationService>;
+describe('GeocodingService', () => {
+  let spectator: SpectatorService<GeocodingService>;
   const createService = createServiceFactory({
-    service: GeolocationService,
+    service: GeocodingService,
     providers: [provideHttpClient()],
   });
 

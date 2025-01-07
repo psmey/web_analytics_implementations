@@ -14,7 +14,7 @@ import { CreateCallDialogComponent } from '../../components/create-call-dialog/c
 import { TableComponent } from '../../components/table/table.component';
 import { Call } from '../../models/call';
 import { DisplayedCall } from '../../models/displayedCall';
-import { GeolocationService } from '../../services/geolocation/geolocation.service';
+import { GeocodingService } from '../../services/geocoding/geocoding.service';
 
 @Component({
   selector: 'app-calls',
@@ -35,8 +35,8 @@ export class CallsComponent implements OnInit {
 
   private readonly callService: CallService = inject(CallService);
   private readonly matDialog: MatDialog = inject(MatDialog);
-  private readonly geolocationService: GeolocationService =
-    inject(GeolocationService);
+  private readonly geocodingService: GeocodingService =
+    inject(GeocodingService);
   private readonly datePipe: DatePipe = inject(DatePipe);
 
   public ngOnInit() {
@@ -76,12 +76,26 @@ export class CallsComponent implements OnInit {
 
   private async toIncomingCall(call: Call): Promise<IncomingCall> {
     const coordinates: BidirectionalCoordinates =
-      await this.geolocationService.toCoordinates(call.address);
+      await this.geocodingService.toCoordinates(call.address);
+
+    const startDate = this.datePipe.transform(
+      call.timeRestrictions.startDate,
+      'yyyy-MM-dd'
+    )!;
+
+    const endDate = this.datePipe.transform(
+      call.timeRestrictions.endDate,
+      'yyyy-MM-dd'
+    )!;
 
     const incomingCall: IncomingCall = {
       id: call.id,
       coordinates,
-      timeRestrictions: call.timeRestrictions,
+      timeRestrictions: {
+        startDate,
+        endDate,
+        duration: call.timeRestrictions.duration,
+      },
     };
 
     return incomingCall;
@@ -90,7 +104,7 @@ export class CallsComponent implements OnInit {
   private async toDisplayedCalls(outgoingCalls: OutgoingCall[]) {
     return Promise.all(
       outgoingCalls.map(async outgoingCall => {
-        const address: string = await this.geolocationService.toAdress(
+        const address: string = await this.geocodingService.toAdress(
           outgoingCall.coordinates
         );
 
