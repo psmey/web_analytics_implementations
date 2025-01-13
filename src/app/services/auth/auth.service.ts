@@ -7,9 +7,11 @@ import { environment } from '../../../environments/environment.template';
   providedIn: 'root',
 })
 export class AuthService {
+  private readonly TOKEN_ATTRIBUTE = 'access_token_d';
+
   private readonly httpClient: HttpClient = inject(HttpClient);
 
-  async setToken(): Promise<void> {
+  async setToken() {
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
     });
@@ -19,16 +21,16 @@ export class AuthService {
     body.set('client_id', environment.CLIENT_ID);
     body.set('client_secret', environment.CLIENT_SECRET);
 
-    firstValueFrom(
+    return firstValueFrom(
       this.httpClient.post<{
         access_token: string;
       }>(environment.TOKEN_URL, body.toString(), { headers })
     ).then(response =>
-      sessionStorage.setItem('access_token', response.access_token)
+      sessionStorage.setItem(this.TOKEN_ATTRIBUTE, response.access_token)
     );
   }
 
   getToken(): string | null {
-    return sessionStorage.getItem('access_token');
+    return sessionStorage.getItem(this.TOKEN_ATTRIBUTE);
   }
 }
