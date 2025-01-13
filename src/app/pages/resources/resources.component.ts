@@ -8,8 +8,8 @@ import {
   BidirectionalCoordinates,
   IncomingResource,
   OutgoingResource,
-} from '../../api/models';
-import { ResourceService } from '../../api/services';
+} from '../../../api/models';
+import { ResourceService } from '../../../api/services';
 import { CreateResourceDialogComponent } from '../../components/create-resource-dialog/create-resource-dialog.component';
 import { TableComponent } from '../../components/table/table.component';
 import { Address } from '../../models/address';

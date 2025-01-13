@@ -8,8 +8,10 @@ import {
   BidirectionalCoordinates,
   IncomingCall,
   OutgoingCall,
-} from '../../api/models';
-import { CallService } from '../../api/services/call.service';
+} from '../../../api/models';
+import { IncomingOptimizationOptimizationDefinition } from '../../../api/models/incoming-optimization-optimization-definition';
+import { CallService } from '../../../api/services/call.service';
+import { OptimizationService } from '../../../api/services/optimization.service';
 import { CreateCallDialogComponent } from '../../components/create-call-dialog/create-call-dialog.component';
 import { TableComponent } from '../../components/table/table.component';
 import { Call } from '../../models/call';
@@ -34,9 +36,11 @@ export class CallsComponent implements OnInit {
   ];
 
   private readonly callService: CallService = inject(CallService);
-  private readonly matDialog: MatDialog = inject(MatDialog);
+  private readonly optimizationService: OptimizationService =
+    inject(OptimizationService);
   private readonly geocodingService: GeocodingService =
     inject(GeocodingService);
+  private readonly matDialog: MatDialog = inject(MatDialog);
   private readonly datePipe: DatePipe = inject(DatePipe);
 
   public ngOnInit() {
@@ -56,6 +60,33 @@ export class CallsComponent implements OnInit {
         this.addCall(incomingCall);
       }
     });
+  }
+
+  startOptimization() {
+    const startDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd')!;
+
+    const date = new Date();
+    const oneYearFromNow = date.setFullYear(date.getFullYear() + 1);
+
+    const endDate = this.datePipe.transform(oneYearFromNow, 'yyyy-MM-dd')!;
+
+    const definition: IncomingOptimizationOptimizationDefinition = {
+      recordedCallsFilter: {
+        earliestEndDate: startDate,
+        earliestStartDate: startDate,
+        latestEndDate: endDate,
+        latestStartDate: endDate,
+      },
+      startDate,
+      endDate,
+    };
+
+    this.optimizationService
+      .optimizationCreateOptimization({
+        body: definition,
+      })
+      .pipe(tap(() => this.loadCalls()))
+      .subscribe();
   }
 
   private loadCalls() {

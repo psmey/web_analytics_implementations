@@ -5,4 +5,9 @@
   Add call
 </button>
 
+<button mat-fab extended (click)="startOptimization()" class="color-primary">
+  <mat-icon>schedule</mat-icon>
+  Schedule Calls
+</button>
+
 <app-table [dataSource]="calls" [columns]="columns"></app-table>
