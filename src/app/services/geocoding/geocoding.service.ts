@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { firstValueFrom, map } from 'rxjs';
-import { BidirectionalCoordinates } from '../../api/models';
+import { BidirectionalCoordinates } from '../../../api/models';
 import { Address } from '../../models/address';
 import { openStreetMapResponse } from '../../models/osmCoordinatesResponse';
 
