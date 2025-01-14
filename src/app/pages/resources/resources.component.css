@@ -2,3 +2,9 @@
   background-color: var(--mat-sys-primary);
   color: var(--mat-sys-on-primary);
 }
+
+.action-container {
+  display: flex;
+  align-items: center;
+  height: 5rem;
+}
