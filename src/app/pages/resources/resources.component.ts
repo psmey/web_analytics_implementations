@@ -9,7 +9,7 @@ import {
   IncomingResource,
   OutgoingResource,
 } from '../../../api/models';
-import { ResourceService } from '../../../api/services';
+import { ResourceApiService } from '../../../api/services';
 import { CreateResourceDialogComponent } from '../../components/create-resource-dialog/create-resource-dialog.component';
 import { TableComponent } from '../../components/table/table.component';
 import { Address } from '../../models/address';
@@ -30,7 +30,8 @@ export class ResourcesComponent implements OnInit {
   protected readonly columns: string[] = ['id', 'address'];
 
   private readonly matDialog: MatDialog = inject(MatDialog);
-  private readonly resourceService: ResourceService = inject(ResourceService);
+  private readonly resourceService: ResourceApiService =
+    inject(ResourceApiService);
   private readonly geocodingService: GeocodingService =
     inject(GeocodingService);
 

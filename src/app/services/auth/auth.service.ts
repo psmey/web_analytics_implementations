@@ -7,7 +7,7 @@ import { environment } from '../../../environments/environment.template';
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly TOKEN_ATTRIBUTE = 'access_token_d';
+  private readonly TOKEN_ATTRIBUTE = 'access_token';
 
   private readonly httpClient: HttpClient = inject(HttpClient);
 

@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { tap } from 'rxjs';
 import { IncomingOptimizationOptimizationDefinition } from '../../../api/models/incoming-optimization-optimization-definition';
-import { OptimizationService } from '../../../api/services';
+import { OptimizationApiService } from '../../../api/services';
 import { CreateCallDialogComponent } from '../../components/create-call-dialog/create-call-dialog.component';
 import { TableComponent } from '../../components/table/table.component';
 import { Call } from '../../models/call';
@@ -32,7 +32,7 @@ export class CallsComponent implements OnInit {
   private readonly callService = inject(CallService);
   private readonly matDialog = inject(MatDialog);
   private readonly datePipe = inject(DatePipe);
-  private readonly optimizationService = inject(OptimizationService);
+  private readonly optimizationApiService = inject(OptimizationApiService);
 
   ngOnInit() {
     this.loadCalls();
@@ -71,7 +71,7 @@ export class CallsComponent implements OnInit {
       endDate,
     };
 
-    this.optimizationService
+    this.optimizationApiService
       .optimizationCreateOptimization({
         body: definition,
       })
