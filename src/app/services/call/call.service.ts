@@ -7,8 +7,8 @@ import {
   OutgoingCall,
 } from '../../../api/models';
 import { CallApiService } from '../../../api/services/call-api.service';
-import { Call } from '../../models/call';
-import { DisplayedCall } from '../../models/displayedCall';
+import { Call } from '../../models/call/call';
+import { DisplayedCall } from '../../models/call/displayedCall';
 import { GeocodingService } from '../geocoding/geocoding.service';
 
 @Injectable({
@@ -20,20 +20,22 @@ export class CallService {
     inject(GeocodingService);
   private readonly datePipe: DatePipe = inject(DatePipe);
 
-  public loadCalls(): Observable<DisplayedCall[]> {
+  loadCalls(): Observable<DisplayedCall[]> {
     return this.callApiService
       .callGetCalls()
-      .pipe(map(calls => from(this.toCalls(calls))))
+      .pipe(map(calls => from(this.toDisplayedCalls(calls))))
       .pipe(mergeMap(response => response));
   }
 
-  public addCalls(call: Call) {
+  addCalls(call: Call): Observable<OutgoingCall> {
     return from(this.createMappedCall(call)).pipe(
       mergeMap(response => response)
     );
   }
 
-  private toCalls(outgoingCalls: OutgoingCall[]): Promise<DisplayedCall[]> {
+  private toDisplayedCalls(
+    outgoingCalls: OutgoingCall[]
+  ): Promise<DisplayedCall[]> {
     return Promise.all(
       outgoingCalls.map(async outgoingCall => {
         const address: string = await this.geocodingService.toAdress(

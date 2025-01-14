@@ -1,5 +1,5 @@
-import { IncomingTimeRestrictions } from '../../api/models';
-import { Address } from './address';
+import { IncomingTimeRestrictions } from '../../../api/models';
+import { Address } from '../address';
 
 export interface Call {
   id: string;

@@ -8,8 +8,8 @@ import { IncomingOptimizationOptimizationDefinition } from '../../../api/models/
 import { OptimizationApiService } from '../../../api/services';
 import { CreateCallDialogComponent } from '../../components/create-call-dialog/create-call-dialog.component';
 import { TableComponent } from '../../components/table/table.component';
-import { Call } from '../../models/call';
-import { DisplayedCall } from '../../models/displayedCall';
+import { Call } from '../../models/call/call';
+import { DisplayedCall } from '../../models/call/displayedCall';
 import { CallService } from '../../services/call/call.service';
 
 @Component({
@@ -86,6 +86,9 @@ export class CallsComponent implements OnInit {
   }
 
   private addCall(call: Call) {
-    this.callService.addCalls(call).subscribe();
+    this.callService
+      .addCalls(call)
+      .pipe(tap(() => this.loadCalls()))
+      .subscribe();
   }
 }

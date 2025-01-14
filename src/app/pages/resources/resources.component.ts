@@ -13,8 +13,8 @@ import { ResourceApiService } from '../../../api/services';
 import { CreateResourceDialogComponent } from '../../components/create-resource-dialog/create-resource-dialog.component';
 import { TableComponent } from '../../components/table/table.component';
 import { Address } from '../../models/address';
-import { DisplayedResource } from '../../models/displayedResource';
-import { ReadableResource } from '../../models/readableResource';
+import { DisplayedResource } from '../../models/resource/displayedResource';
+import { ReadableResource } from '../../models/resource/readableResource';
 import { GeocodingService } from '../../services/geocoding/geocoding.service';
 
 @Component({
