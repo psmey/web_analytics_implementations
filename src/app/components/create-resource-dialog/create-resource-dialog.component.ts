@@ -28,21 +28,23 @@ export class CreateResourceDialogComponent {
       nonNullable: true,
       validators: [Validators.required],
     }),
-    street: new FormControl('', {
-      nonNullable: true,
-      validators: [Validators.required],
-    }),
-    city: new FormControl('', {
-      nonNullable: true,
-      validators: [Validators.required],
-    }),
-    country: new FormControl('', {
-      nonNullable: true,
-      validators: [Validators.required],
-    }),
-    postalcode: new FormControl('', {
-      nonNullable: true,
-      validators: [Validators.required],
+    address: new FormGroup({
+      street: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required],
+      }),
+      city: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required],
+      }),
+      country: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required],
+      }),
+      postalcode: new FormControl<number | null>(null, {
+        nonNullable: true,
+        validators: [Validators.required],
+      }),
     }),
   });
 }
