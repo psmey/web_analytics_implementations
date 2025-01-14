@@ -4,19 +4,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { tap } from 'rxjs';
-import {
-  BidirectionalCoordinates,
-  IncomingCall,
-  OutgoingCall,
-} from '../../../api/models';
 import { IncomingOptimizationOptimizationDefinition } from '../../../api/models/incoming-optimization-optimization-definition';
-import { CallService } from '../../../api/services/call.service';
-import { OptimizationService } from '../../../api/services/optimization.service';
+import { OptimizationService } from '../../../api/services';
 import { CreateCallDialogComponent } from '../../components/create-call-dialog/create-call-dialog.component';
 import { TableComponent } from '../../components/table/table.component';
 import { Call } from '../../models/call';
 import { DisplayedCall } from '../../models/displayedCall';
-import { GeocodingService } from '../../services/geocoding/geocoding.service';
+import { CallService } from '../../services/call/call.service';
 
 @Component({
   selector: 'app-calls',
@@ -26,7 +20,7 @@ import { GeocodingService } from '../../services/geocoding/geocoding.service';
 })
 export class CallsComponent implements OnInit {
   protected calls: DisplayedCall[] = [];
-  protected readonly columns: string[] = [
+  protected readonly columns = [
     'id',
     'address',
     'startDate',
@@ -35,19 +29,16 @@ export class CallsComponent implements OnInit {
     'routeDate',
   ];
 
-  private readonly callService: CallService = inject(CallService);
-  private readonly optimizationService: OptimizationService =
-    inject(OptimizationService);
-  private readonly geocodingService: GeocodingService =
-    inject(GeocodingService);
-  private readonly matDialog: MatDialog = inject(MatDialog);
-  private readonly datePipe: DatePipe = inject(DatePipe);
+  private readonly callService = inject(CallService);
+  private readonly matDialog = inject(MatDialog);
+  private readonly datePipe = inject(DatePipe);
+  private readonly optimizationService = inject(OptimizationService);
 
-  public ngOnInit() {
+  ngOnInit() {
     this.loadCalls();
   }
 
-  public openDialog(): void {
+  openDialog() {
     const dialogRef = this.matDialog.open<
       CreateCallDialogComponent,
       never,
@@ -56,8 +47,7 @@ export class CallsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(async (call: Call | undefined) => {
       if (call) {
-        const incomingCall = await this.toIncomingCall(call);
-        this.addCall(incomingCall);
+        this.addCall(call);
       }
     });
   }
@@ -91,62 +81,11 @@ export class CallsComponent implements OnInit {
 
   private loadCalls() {
     this.callService
-      .callGetCalls()
-      .subscribe(
-        async (calls: OutgoingCall[]) =>
-          (this.calls = await this.toDisplayedCalls(calls))
-      );
+      .loadCalls()
+      .subscribe((calls: DisplayedCall[]) => (this.calls = calls));
   }
 
-  private addCall(call: IncomingCall) {
-    this.callService
-      .callCreateCall({ body: call })
-      .pipe(tap(() => this.loadCalls()))
-      .subscribe();
-  }
-
-  private async toIncomingCall(call: Call): Promise<IncomingCall> {
-    const coordinates: BidirectionalCoordinates =
-      await this.geocodingService.toCoordinates(call.address);
-
-    const startDate = this.datePipe.transform(
-      call.timeRestrictions.startDate,
-      'yyyy-MM-dd'
-    )!;
-
-    const endDate = this.datePipe.transform(
-      call.timeRestrictions.endDate,
-      'yyyy-MM-dd'
-    )!;
-
-    const incomingCall: IncomingCall = {
-      id: call.id,
-      coordinates,
-      timeRestrictions: {
-        startDate,
-        endDate,
-        duration: call.timeRestrictions.duration,
-      },
-    };
-
-    return incomingCall;
-  }
-
-  private async toDisplayedCalls(outgoingCalls: OutgoingCall[]) {
-    return Promise.all(
-      outgoingCalls.map(async outgoingCall => {
-        const address: string = await this.geocodingService.toAdress(
-          outgoingCall.coordinates
-        );
-
-        const displayedCall: DisplayedCall = {
-          ...outgoingCall,
-          ...outgoingCall.timeRestrictions,
-          address,
-        };
-
-        return displayedCall;
-      })
-    );
+  private addCall(call: Call) {
+    this.callService.addCalls(call).subscribe();
   }
 }
