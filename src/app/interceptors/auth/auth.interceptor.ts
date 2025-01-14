@@ -5,6 +5,7 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { from, lastValueFrom, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment.template';
 import { AuthService } from '../../services/auth/auth.service';
@@ -12,6 +13,7 @@ import { AuthService } from '../../services/auth/auth.service';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   private readonly authService = inject(AuthService);
+  private readonly jwtHelperService = inject(JwtHelperService);
 
   public intercept(
     req: HttpRequest<unknown>,
@@ -29,8 +31,9 @@ export class AuthInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Promise<HttpEvent<unknown>> {
     let token = this.authService.getToken();
+    const isExpired = this.jwtHelperService.isTokenExpired(token);
 
-    if (!token) {
+    if (!token || isExpired) {
       await this.authService.setToken();
       token = this.authService.getToken();
     }
