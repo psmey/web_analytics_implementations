@@ -23,7 +23,7 @@ import { CallUpdateCall$Params } from '../fn/call/call-update-call';
 import { OutgoingCall } from '../models/outgoing-call';
 
 @Injectable({ providedIn: 'root' })
-export class CallService extends BaseService {
+export class CallApiService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
   }

@@ -26,7 +26,7 @@ import { OutgoingOptimizationStateDefinition } from '../models/outgoing-optimiza
  * An optimization seeks to determine the best route for resources, taking into account their limitations and benefits.
  */
 @Injectable({ providedIn: 'root' })
-export class OptimizationService extends BaseService {
+export class OptimizationApiService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
   }

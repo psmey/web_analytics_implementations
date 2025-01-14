@@ -23,7 +23,7 @@ import { resourceUpdateResource } from '../fn/resource/resource-update-resource'
 import { ResourceUpdateResource$Params } from '../fn/resource/resource-update-resource';
 
 @Injectable({ providedIn: 'root' })
-export class ResourceService extends BaseService {
+export class ResourceApiService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
   }

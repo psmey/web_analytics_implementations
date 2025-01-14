@@ -6,5 +6,6 @@
     "Resource",
     "Call",
     "Optimization"
-  ]
+  ],
+  "serviceSuffix": "ApiService"
 }

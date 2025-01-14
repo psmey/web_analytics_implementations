@@ -5,9 +5,9 @@ import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core
 import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
-import { CallService } from './services/call.service';
-import { OptimizationService } from './services/optimization.service';
-import { ResourceService } from './services/resource.service';
+import { CallApiService } from './services/call-api.service';
+import { OptimizationApiService } from './services/optimization-api.service';
+import { ResourceApiService } from './services/resource-api.service';
 
 /**
  * Module that provides all services and configuration.
@@ -17,9 +17,9 @@ import { ResourceService } from './services/resource.service';
   exports: [],
   declarations: [],
   providers: [
-    CallService,
-    OptimizationService,
-    ResourceService,
+    CallApiService,
+    OptimizationApiService,
+    ResourceApiService,
     ApiConfiguration
   ],
 })
