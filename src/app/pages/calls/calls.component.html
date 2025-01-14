@@ -1,13 +1,19 @@
 <h1>Calls</h1>
 
-<button mat-fab extended (click)="openDialog()" class="color-primary">
-  <mat-icon>add</mat-icon>
-  Add call
-</button>
+<div class="action-container">
+  <button mat-fab extended (click)="openDialog()" class="color-primary">
+    <mat-icon>add</mat-icon>
+    Add call
+  </button>
 
-<button mat-fab extended (click)="startOptimization()" class="color-primary">
-  <mat-icon>schedule</mat-icon>
-  Schedule Calls
-</button>
+  <button mat-fab extended (click)="startOptimization()" class="color-primary">
+    <mat-icon>schedule</mat-icon>
+    Schedule Calls
+  </button>
+
+  @if (!currentOptimizationEnded) {
+    <mat-spinner mode="indeterminate"></mat-spinner>
+  }
+</div>
 
 <app-table [dataSource]="calls" [columns]="columns"></app-table>

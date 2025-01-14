@@ -1,41 +1,60 @@
-import { DatePipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { tap } from 'rxjs';
-import { IncomingOptimizationOptimizationDefinition } from '../../../api/models/incoming-optimization-optimization-definition';
-import { OptimizationApiService } from '../../../api/services';
 import { CreateCallDialogComponent } from '../../components/create-call-dialog/create-call-dialog.component';
 import { TableComponent } from '../../components/table/table.component';
 import { Call } from '../../models/call/call';
 import { DisplayedCall } from '../../models/call/displayedCall';
 import { CallService } from '../../services/call/call.service';
+import { OptimizationService } from '../../services/optimization/optimization.service';
 
 @Component({
   selector: 'app-calls',
-  imports: [MatIconModule, MatButtonModule, TableComponent],
+  imports: [
+    MatIconModule,
+    MatButtonModule,
+    TableComponent,
+    MatProgressSpinnerModule,
+  ],
   templateUrl: './calls.component.html',
   styleUrl: './calls.component.css',
 })
 export class CallsComponent implements OnInit {
-  protected calls: DisplayedCall[] = [];
   protected readonly columns = [
     'id',
-    'address',
+    'routeDate',
     'startDate',
     'endDate',
     'duration',
-    'routeDate',
+    'address',
   ];
 
+  protected calls: DisplayedCall[] = [];
+  protected currentOptimizationEnded = true;
+
   private readonly callService = inject(CallService);
+  private readonly optimizationService = inject(OptimizationService);
   private readonly matDialog = inject(MatDialog);
-  private readonly datePipe = inject(DatePipe);
-  private readonly optimizationApiService = inject(OptimizationApiService);
 
   ngOnInit() {
     this.loadCalls();
+  }
+
+  startOptimization() {
+    this.currentOptimizationEnded = false;
+    this.optimizationService
+      .startOptimization()
+      .pipe(
+        tap(id => {
+          if (id) {
+            this.loadCallsWhenOptimizationEnded(id);
+          }
+        })
+      )
+      .subscribe();
   }
 
   openDialog() {
@@ -52,33 +71,6 @@ export class CallsComponent implements OnInit {
     });
   }
 
-  startOptimization() {
-    const startDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd')!;
-
-    const date = new Date();
-    const oneYearFromNow = date.setFullYear(date.getFullYear() + 1);
-
-    const endDate = this.datePipe.transform(oneYearFromNow, 'yyyy-MM-dd')!;
-
-    const definition: IncomingOptimizationOptimizationDefinition = {
-      recordedCallsFilter: {
-        earliestEndDate: startDate,
-        earliestStartDate: startDate,
-        latestEndDate: endDate,
-        latestStartDate: endDate,
-      },
-      startDate,
-      endDate,
-    };
-
-    this.optimizationApiService
-      .optimizationCreateOptimization({
-        body: definition,
-      })
-      .pipe(tap(() => this.loadCalls()))
-      .subscribe();
-  }
-
   private loadCalls() {
     this.callService
       .loadCalls()
@@ -90,5 +82,12 @@ export class CallsComponent implements OnInit {
       .addCalls(call)
       .pipe(tap(() => this.loadCalls()))
       .subscribe();
+  }
+
+  private loadCallsWhenOptimizationEnded(id: string) {
+    this.optimizationService
+      .checkUntilOptimizationEnded(id)
+      .pipe(tap(() => this.loadCalls()))
+      .subscribe((ended: boolean) => (this.currentOptimizationEnded = ended));
   }
 }
