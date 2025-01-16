@@ -1,22 +1,13 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { Spectator, createComponentFactory } from '@ngneat/spectator/jest';
 import { CreateCallDialogComponent } from './create-call-dialog.component';
 
 describe('CreateCallDialogComponent', () => {
-  let component: CreateCallDialogComponent;
-  let fixture: ComponentFixture<CreateCallDialogComponent>;
+  let spectator: Spectator<CreateCallDialogComponent>;
+  const createComponent = createComponentFactory(CreateCallDialogComponent);
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [CreateCallDialogComponent],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(CreateCallDialogComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  beforeEach(() => (spectator = createComponent()));
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(spectator.component).toBeTruthy();
   });
 });

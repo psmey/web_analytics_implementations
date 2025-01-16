@@ -1,4 +1,5 @@
 import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideRouter } from '@angular/router';
 import { Spectator, createComponentFactory } from '@ngneat/spectator/jest';
 import { AppComponent } from './app.component';
@@ -8,7 +9,11 @@ describe('AppComponent', () => {
   let spectator: Spectator<AppComponent>;
   const createComponent = createComponentFactory({
     component: AppComponent,
-    providers: [provideHttpClient(), provideRouter(routes)],
+    providers: [
+      provideHttpClient(),
+      provideHttpClientTesting(),
+      provideRouter(routes),
+    ],
   });
 
   beforeEach(() => (spectator = createComponent()));

@@ -1,16 +1,19 @@
-import { TestBed } from '@angular/core/testing';
-
+import { DatePipe } from '@angular/common';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { SpectatorService, createServiceFactory } from '@ngneat/spectator/jest';
 import { OptimizationService } from './optimization.service';
 
 describe('OptimizationService', () => {
-  let service: OptimizationService;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(OptimizationService);
+  let spectator: SpectatorService<OptimizationService>;
+  const createService = createServiceFactory({
+    service: OptimizationService,
+    providers: [provideHttpClient(), provideHttpClientTesting(), DatePipe],
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
+  beforeEach(() => (spectator = createService()));
+
+  it('should create', () => {
+    expect(spectator.service).toBeTruthy();
   });
 });

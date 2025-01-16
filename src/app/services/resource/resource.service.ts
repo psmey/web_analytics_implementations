@@ -35,9 +35,13 @@ export class ResourceService {
   ): Promise<DisplayedResource[]> {
     return Promise.all(
       resources.map(async (resource: OutgoingResource) => {
+        const address = await this.geocodingService.toAdress(
+          resource.coordinates
+        );
+
         return {
           id: resource.id,
-          address: await this.geocodingService.toAdress(resource.coordinates),
+          address,
         };
       })
     );
@@ -47,6 +51,7 @@ export class ResourceService {
     resource: Resource
   ): Promise<Observable<OutgoingResource>> {
     const incomingResource = await this.toIncomingResource(resource);
+
     return this.resourceApiService.resourceCreateResource({
       body: incomingResource,
     });
@@ -60,7 +65,7 @@ export class ResourceService {
 
     return {
       id: resource.id,
-      coordinates: coordinates,
+      coordinates,
     };
   }
 }
