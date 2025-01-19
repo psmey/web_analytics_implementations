@@ -1,46 +1,22 @@
-# WebAnalyticsImplementations
+# Web Analytics Implementations
 
-- [API](#api)
-  - [Configuration](#configuration)
-  - [Development](#development)
+Sample implementations of different web analytics technolgies.
 
-## API
+## 📦 Prerequisites
 
-### Configuration
+Make sure [`Node.js`](https://nodejs.org/en) [v^18.19.1 or newer](https://angular.dev/reference/versions) is installed.
 
-The API url is set via the `src/environments/environments.ts`.
-For different environments adjust accordingly i. E. `environment.prod.ts`.
+## 🛠️ Set-up
 
-### Development
+Before running the application create the respective files `environment.development.ts` and `environment.production.ts`.
+Add the respective values to the environment variables.
 
-While development client and server will lead to a security error in the browser.
+## ⚙️ Running the Application
 
-To mitigate that in the `development` configuration a proxy is set up for the server.
+Start the applicaiton.
 
-The proxy can be configured in the `proxy.conf.json`
-
-```json
-{
-  "/api": {
-    "target": "http://localhost:<server-port>",
-    "secure": false
-  }
-}
+```bash
+npm start
 ```
 
-Also it needs to be provided in the `angular.json` for the build configuration
-
-```json
-// more json
-"serve": {
-  "configurations": {
-    "development": {
-      "buildTarget": "web_analytics_implementations:build:development",
-      "proxyConfig": "proxy.conf.json" // <-- set here
-    }
-    // more configurations
-  }
-}
-```
-
-> Important! You need to rebuild the client (i. E. `ng server`) if you change the proxy configs!
+After the application is finished building, visit <http://localhost:4200/> to see the running application.
