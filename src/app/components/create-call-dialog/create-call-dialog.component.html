@@ -61,14 +61,11 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button mat-button mat-dialog-close data-testid="cancel-button">
-    Cancel
-  </button>
+  <button mat-button mat-dialog-close>Cancel</button>
   <button
     mat-flat-button
     [disabled]="!formGroup.valid"
-    [mat-dialog-close]="formGroup.value"
-    data-testid="create-button">
+    [mat-dialog-close]="formGroup.value">
     Create
   </button>
 </mat-dialog-actions>

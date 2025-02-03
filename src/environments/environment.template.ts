@@ -8,4 +8,9 @@ export const environment = {
   TOKEN_URL: '',
   CLIENT_ID: '',
   CLIENT_SECRET: '',
+  MATOMO: {
+    SITE_ID: 0,
+    SCRIPT_URL: '',
+    TRACKER_URL: '',
+  },
 };

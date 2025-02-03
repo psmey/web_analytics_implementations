@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatomoTracker } from 'ngx-matomo-client';
 import { tap } from 'rxjs';
 import { CreateResourceDialogComponent } from '../../components/create-resource-dialog/create-resource-dialog.component';
 import { TableComponent } from '../../components/table/table.component';
@@ -16,6 +17,8 @@ import { ResourceService } from '../../services/resource/resource.service';
   styleUrl: './resources.component.css',
 })
 export class ResourcesComponent implements OnInit {
+  private readonly trackingCategory = 'resources';
+
   protected readonly dialogComponent = CreateResourceDialogComponent;
   protected readonly columns = ['id', 'address'];
 
@@ -23,12 +26,15 @@ export class ResourcesComponent implements OnInit {
 
   private readonly matDialog = inject(MatDialog);
   private readonly resourceService = inject(ResourceService);
+  private readonly matomoTracker = inject(MatomoTracker);
 
   public ngOnInit(): void {
     this.loadResources();
   }
 
   public openDialog(): void {
+    this.matomoTracker.trackEvent(this.trackingCategory, 'openResourceDialog');
+
     const dialogRef = this.matDialog.open<
       CreateResourceDialogComponent,
       never,
@@ -45,6 +51,8 @@ export class ResourcesComponent implements OnInit {
   }
 
   private addResource(resource: Resource): void {
+    this.matomoTracker.trackEvent(this.trackingCategory, 'addResource');
+
     this.resourceService
       .addResource(resource)
       .pipe(tap(() => this.loadResources()))

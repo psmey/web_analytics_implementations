@@ -3,6 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatomoTracker } from 'ngx-matomo-client';
 import { tap } from 'rxjs';
 import { CreateCallDialogComponent } from '../../components/create-call-dialog/create-call-dialog.component';
 import { TableComponent } from '../../components/table/table.component';
@@ -31,6 +32,7 @@ export class CallsComponent implements OnInit {
     'duration',
     'address',
   ];
+  private readonly trackingCategory = 'calls';
 
   protected calls: DisplayedCall[] = [];
   protected currentOptimizationEnded = true;
@@ -38,12 +40,15 @@ export class CallsComponent implements OnInit {
   private readonly callService = inject(CallService);
   private readonly optimizationService = inject(OptimizationService);
   private readonly matDialog = inject(MatDialog);
+  private readonly matomoTracker = inject(MatomoTracker);
 
   ngOnInit() {
     this.loadCalls();
   }
 
   startOptimization() {
+    this.matomoTracker.trackEvent(this.trackingCategory, 'scheduleCalls');
+
     this.currentOptimizationEnded = false;
     this.optimizationService
       .startOptimization()
@@ -58,6 +63,8 @@ export class CallsComponent implements OnInit {
   }
 
   openDialog() {
+    this.matomoTracker.trackEvent(this.trackingCategory, 'openCallDialog');
+
     const dialogRef = this.matDialog.open<
       CreateCallDialogComponent,
       never,

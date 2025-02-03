@@ -1,12 +1,22 @@
 <h1>Calls</h1>
 
 <div class="action-container">
-  <button mat-fab extended (click)="openDialog()" class="color-primary">
+  <button
+    mat-fab
+    extended
+    (click)="openDialog()"
+    class="color-primary"
+    data-testid="open-call-dialog-button">
     <mat-icon>add</mat-icon>
     Add call
   </button>
 
-  <button mat-fab extended (click)="startOptimization()" class="color-primary">
+  <button
+    mat-fab
+    extended
+    (click)="startOptimization()"
+    class="color-primary"
+    data-testid="schedule-calls-button">
     <mat-icon>schedule</mat-icon>
     Schedule Calls
   </button>
