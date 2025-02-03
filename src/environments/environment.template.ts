@@ -13,4 +13,5 @@ export const environment = {
     SCRIPT_URL: '',
     TRACKER_URL: '',
   },
+  AMPLITUDE_API_KEY: '',
 };

@@ -9,11 +9,13 @@ import {
 } from '@ngneat/spectator/jest';
 import { MatomoTracker } from 'ngx-matomo-client';
 import { provideMatomoTesting } from 'ngx-matomo-client/testing';
+import { AmplitudeService } from '../../services/amplitude/amplitude.service';
 import { CallsComponent } from './calls.component';
 
 describe('CallsComponent', () => {
   let spectator: Spectator<CallsComponent>;
   let matomoTracker: SpyObject<MatomoTracker>;
+  let amplitudeService: SpyObject<AmplitudeService>;
 
   const createComponent = createComponentFactory({
     component: CallsComponent,
@@ -24,20 +26,24 @@ describe('CallsComponent', () => {
       provideMatomoTesting(),
     ],
     detectChanges: false,
-    mocks: [MatomoTracker],
+    mocks: [MatomoTracker, AmplitudeService],
   });
 
   beforeEach(() => {
     spectator = createComponent();
+
     matomoTracker = spectator.inject(MatomoTracker);
     matomoTracker.trackEvent.mockReturnThis();
+
+    amplitudeService = spectator.inject(AmplitudeService);
+    amplitudeService.track.mockReturnThis();
   });
 
   it('should create', () => {
     expect(spectator.component).toBeTruthy();
   });
 
-  describe('matomo', () => {
+  describe('Matomo', () => {
     it('should call tracker for open call dialog button', () => {
       const openCallDialogButton = spectator.query(
         byTestId('open-call-dialog-button')
@@ -62,6 +68,32 @@ describe('CallsComponent', () => {
         'calls',
         'scheduleCalls'
       );
+    });
+  });
+
+  describe('Amplitude', () => {
+    it('should call tracker for open call dialog button', () => {
+      const openCallDialogButton = spectator.query(
+        byTestId('open-call-dialog-button')
+      ) as HTMLButtonElement;
+
+      openCallDialogButton.click();
+
+      expect(amplitudeService.track).toHaveBeenCalledWith({
+        event_type: 'openCallDialog',
+      });
+    });
+
+    it('should call tracker attributes for schedule calls button', () => {
+      const scheduleCallsButton = spectator.query(
+        byTestId('schedule-calls-button')
+      ) as HTMLButtonElement;
+
+      scheduleCallsButton.click();
+
+      expect(amplitudeService.track).toHaveBeenCalledWith({
+        event_type: 'scheduleCalls',
+      });
     });
   });
 });

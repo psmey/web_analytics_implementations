@@ -8,11 +8,13 @@ import {
 } from '@ngneat/spectator/jest';
 import { MatomoTracker } from 'ngx-matomo-client';
 import { provideMatomoTesting } from 'ngx-matomo-client/testing';
+import { AmplitudeService } from '../../services/amplitude/amplitude.service';
 import { ResourcesComponent } from './resources.component';
 
 describe('ResourcesComponent', () => {
   let spectator: Spectator<ResourcesComponent>;
   let matomoTracker: SpyObject<MatomoTracker>;
+  let amplitudeService: SpyObject<AmplitudeService>;
 
   const createComponent = createComponentFactory({
     component: ResourcesComponent,
@@ -22,20 +24,24 @@ describe('ResourcesComponent', () => {
       provideMatomoTesting(),
     ],
     detectChanges: false,
-    mocks: [MatomoTracker],
+    mocks: [MatomoTracker, AmplitudeService],
   });
 
   beforeEach(() => {
     spectator = createComponent();
+
     matomoTracker = spectator.inject(MatomoTracker);
     matomoTracker.trackEvent.mockReturnThis();
+
+    amplitudeService = spectator.inject(AmplitudeService);
+    amplitudeService.track.mockReturnThis();
   });
 
   it('should create', () => {
     expect(spectator.component).toBeTruthy();
   });
 
-  describe('matomo', () => {
+  describe('Matomo', () => {
     it('should call tracker for open call dialog button', () => {
       const openCallDialogButton = spectator.query(
         byTestId('open-resource-dialog-button')
@@ -47,6 +53,20 @@ describe('ResourcesComponent', () => {
         'resources',
         'openResourceDialog'
       );
+    });
+  });
+
+  describe('Amplitude', () => {
+    it('should call tracker for open call dialog button', () => {
+      const openCallDialogButton = spectator.query(
+        byTestId('open-resource-dialog-button')
+      ) as HTMLButtonElement;
+
+      openCallDialogButton.click();
+
+      expect(amplitudeService.track).toHaveBeenCalledWith({
+        event_type: 'openResourceDialog',
+      });
     });
   });
 });

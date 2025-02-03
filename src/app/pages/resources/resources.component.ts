@@ -8,6 +8,7 @@ import { CreateResourceDialogComponent } from '../../components/create-resource-
 import { TableComponent } from '../../components/table/table.component';
 import { DisplayedResource } from '../../models/resource/displayedResource';
 import { Resource } from '../../models/resource/resource';
+import { AmplitudeService } from '../../services/amplitude/amplitude.service';
 import { ResourceService } from '../../services/resource/resource.service';
 
 @Component({
@@ -27,13 +28,16 @@ export class ResourcesComponent implements OnInit {
   private readonly matDialog = inject(MatDialog);
   private readonly resourceService = inject(ResourceService);
   private readonly matomoTracker = inject(MatomoTracker);
+  private readonly amplitudeService = inject(AmplitudeService);
 
   public ngOnInit(): void {
     this.loadResources();
   }
 
   public openDialog(): void {
-    this.matomoTracker.trackEvent(this.trackingCategory, 'openResourceDialog');
+    const eventType = 'openResourceDialog';
+    this.matomoTracker.trackEvent(this.trackingCategory, eventType);
+    this.amplitudeService.track({ event_type: eventType });
 
     const dialogRef = this.matDialog.open<
       CreateResourceDialogComponent,
@@ -51,8 +55,6 @@ export class ResourcesComponent implements OnInit {
   }
 
   private addResource(resource: Resource): void {
-    this.matomoTracker.trackEvent(this.trackingCategory, 'addResource');
-
     this.resourceService
       .addResource(resource)
       .pipe(tap(() => this.loadResources()))

@@ -9,6 +9,7 @@ import { CreateCallDialogComponent } from '../../components/create-call-dialog/c
 import { TableComponent } from '../../components/table/table.component';
 import { Call } from '../../models/call/call';
 import { DisplayedCall } from '../../models/call/displayedCall';
+import { AmplitudeService } from '../../services/amplitude/amplitude.service';
 import { CallService } from '../../services/call/call.service';
 import { OptimizationService } from '../../services/optimization/optimization.service';
 
@@ -41,13 +42,16 @@ export class CallsComponent implements OnInit {
   private readonly optimizationService = inject(OptimizationService);
   private readonly matDialog = inject(MatDialog);
   private readonly matomoTracker = inject(MatomoTracker);
+  private readonly amplitudeService = inject(AmplitudeService);
 
   ngOnInit() {
     this.loadCalls();
   }
 
   startOptimization() {
-    this.matomoTracker.trackEvent(this.trackingCategory, 'scheduleCalls');
+    const event = 'scheduleCalls';
+    this.matomoTracker.trackEvent(this.trackingCategory, event);
+    this.amplitudeService.track({ event_type: event });
 
     this.currentOptimizationEnded = false;
     this.optimizationService
@@ -63,7 +67,9 @@ export class CallsComponent implements OnInit {
   }
 
   openDialog() {
-    this.matomoTracker.trackEvent(this.trackingCategory, 'openCallDialog');
+    const event = 'openCallDialog';
+    this.matomoTracker.trackEvent(this.trackingCategory, event);
+    this.amplitudeService.track({ event_type: event });
 
     const dialogRef = this.matDialog.open<
       CreateCallDialogComponent,
