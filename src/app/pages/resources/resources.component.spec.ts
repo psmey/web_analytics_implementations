@@ -9,12 +9,14 @@ import {
 import { MatomoTracker } from 'ngx-matomo-client';
 import { provideMatomoTesting } from 'ngx-matomo-client/testing';
 import { AmplitudeService } from '../../services/amplitude/amplitude.service';
+import { HotjarService } from '../../services/hotjar/hotjar.service';
 import { ResourcesComponent } from './resources.component';
 
 describe('ResourcesComponent', () => {
   let spectator: Spectator<ResourcesComponent>;
   let matomoTracker: SpyObject<MatomoTracker>;
   let amplitudeService: SpyObject<AmplitudeService>;
+  let hotjarService: SpyObject<HotjarService>;
 
   const createComponent = createComponentFactory({
     component: ResourcesComponent,
@@ -24,7 +26,7 @@ describe('ResourcesComponent', () => {
       provideMatomoTesting(),
     ],
     detectChanges: false,
-    mocks: [MatomoTracker, AmplitudeService],
+    mocks: [MatomoTracker, AmplitudeService, HotjarService],
   });
 
   beforeEach(() => {
@@ -35,6 +37,9 @@ describe('ResourcesComponent', () => {
 
     amplitudeService = spectator.inject(AmplitudeService);
     amplitudeService.track.mockReturnThis();
+
+    hotjarService = spectator.inject(HotjarService);
+    hotjarService.track.mockReturnThis();
   });
 
   it('should create', () => {
@@ -67,6 +72,18 @@ describe('ResourcesComponent', () => {
       expect(amplitudeService.track).toHaveBeenCalledWith({
         event_type: 'openResourceDialog',
       });
+    });
+  });
+
+  describe('Hotjar', () => {
+    it('should call tracker for open call dialog button', () => {
+      const openCallDialogButton = spectator.query(
+        byTestId('open-resource-dialog-button')
+      ) as HTMLButtonElement;
+
+      openCallDialogButton.click();
+
+      expect(hotjarService.track).toHaveBeenCalledWith('openResourceDialog');
     });
   });
 });

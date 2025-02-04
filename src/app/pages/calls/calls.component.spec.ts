@@ -10,12 +10,14 @@ import {
 import { MatomoTracker } from 'ngx-matomo-client';
 import { provideMatomoTesting } from 'ngx-matomo-client/testing';
 import { AmplitudeService } from '../../services/amplitude/amplitude.service';
+import { HotjarService } from '../../services/hotjar/hotjar.service';
 import { CallsComponent } from './calls.component';
 
 describe('CallsComponent', () => {
   let spectator: Spectator<CallsComponent>;
   let matomoTracker: SpyObject<MatomoTracker>;
   let amplitudeService: SpyObject<AmplitudeService>;
+  let hotjarService: SpyObject<HotjarService>;
 
   const createComponent = createComponentFactory({
     component: CallsComponent,
@@ -26,7 +28,7 @@ describe('CallsComponent', () => {
       provideMatomoTesting(),
     ],
     detectChanges: false,
-    mocks: [MatomoTracker, AmplitudeService],
+    mocks: [MatomoTracker, AmplitudeService, HotjarService],
   });
 
   beforeEach(() => {
@@ -37,6 +39,9 @@ describe('CallsComponent', () => {
 
     amplitudeService = spectator.inject(AmplitudeService);
     amplitudeService.track.mockReturnThis();
+
+    hotjarService = spectator.inject(HotjarService);
+    hotjarService.track.mockReturnThis();
   });
 
   it('should create', () => {
@@ -94,6 +99,28 @@ describe('CallsComponent', () => {
       expect(amplitudeService.track).toHaveBeenCalledWith({
         event_type: 'scheduleCalls',
       });
+    });
+  });
+
+  describe('Hotjar', () => {
+    it('should call tracker for open call dialog button', () => {
+      const openCallDialogButton = spectator.query(
+        byTestId('open-call-dialog-button')
+      ) as HTMLButtonElement;
+
+      openCallDialogButton.click();
+
+      expect(hotjarService.track).toHaveBeenCalledWith('openCallDialog');
+    });
+
+    it('should call tracker attributes for schedule calls button', () => {
+      const scheduleCallsButton = spectator.query(
+        byTestId('schedule-calls-button')
+      ) as HTMLButtonElement;
+
+      scheduleCallsButton.click();
+
+      expect(hotjarService.track).toHaveBeenCalledWith('scheduleCalls');
     });
   });
 });

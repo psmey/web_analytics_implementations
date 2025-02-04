@@ -4,6 +4,7 @@ import { provideRouter } from '@angular/router';
 import { Spectator, createComponentFactory } from '@ngneat/spectator/jest';
 import { AppComponent } from './app.component';
 import { routes } from './app.routes';
+import { HotjarService } from './services/hotjar/hotjar.service';
 
 describe('AppComponent', () => {
   let spectator: Spectator<AppComponent>;
@@ -14,6 +15,7 @@ describe('AppComponent', () => {
       provideHttpClientTesting(),
       provideRouter(routes),
     ],
+    mocks: [HotjarService],
   });
 
   beforeEach(() => (spectator = createComponent()));

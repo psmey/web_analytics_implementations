@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:ssl": "ng serve --ssl true --ssl-key ssl/server.key --ssl-cert ssl/server.crt",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "jest",
@@ -27,6 +28,7 @@
     "@angular/platform-browser-dynamic": "^19.0.0",
     "@angular/router": "^19.0.0",
     "@auth0/angular-jwt": "^5.2.0",
+    "@hotjar/browser": "^1.0.9",
     "ngx-matomo-client": "^7.0.1",
     "rxjs": "~7.8.0",
     "ts-node": "^10.9.2",

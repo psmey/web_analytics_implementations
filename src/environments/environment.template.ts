@@ -14,4 +14,8 @@ export const environment = {
     TRACKER_URL: '',
   },
   AMPLITUDE_API_KEY: '',
+  HOTJAR: {
+    SITE_ID: 0,
+    VERSION: 0,
+  },
 };

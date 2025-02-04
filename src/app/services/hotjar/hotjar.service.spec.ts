@@ -1,9 +1,9 @@
 import { SpectatorService, createServiceFactory } from '@ngneat/spectator';
-import { AmplitudeService } from './amplitude.service';
+import { HotjarService } from './hotjar.service';
 
-describe('AmplitudeService', () => {
-  let spectator: SpectatorService<AmplitudeService>;
-  const createService = createServiceFactory(AmplitudeService);
+describe('HotjarService', () => {
+  let spectator: SpectatorService<HotjarService>;
+  const createService = createServiceFactory(HotjarService);
 
   beforeEach(() => (spectator = createService()));
 

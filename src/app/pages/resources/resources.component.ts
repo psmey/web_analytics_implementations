@@ -9,6 +9,7 @@ import { TableComponent } from '../../components/table/table.component';
 import { DisplayedResource } from '../../models/resource/displayedResource';
 import { Resource } from '../../models/resource/resource';
 import { AmplitudeService } from '../../services/amplitude/amplitude.service';
+import { HotjarService } from '../../services/hotjar/hotjar.service';
 import { ResourceService } from '../../services/resource/resource.service';
 
 @Component({
@@ -29,15 +30,17 @@ export class ResourcesComponent implements OnInit {
   private readonly resourceService = inject(ResourceService);
   private readonly matomoTracker = inject(MatomoTracker);
   private readonly amplitudeService = inject(AmplitudeService);
+  private readonly hotjarService = inject(HotjarService);
 
   public ngOnInit(): void {
     this.loadResources();
   }
 
   public openDialog(): void {
-    const eventType = 'openResourceDialog';
-    this.matomoTracker.trackEvent(this.trackingCategory, eventType);
-    this.amplitudeService.track({ event_type: eventType });
+    const event = 'openResourceDialog';
+    this.matomoTracker.trackEvent(this.trackingCategory, event);
+    this.amplitudeService.track({ event_type: event });
+    this.hotjarService.track(event);
 
     const dialogRef = this.matDialog.open<
       CreateResourceDialogComponent,

@@ -11,6 +11,7 @@ import { Call } from '../../models/call/call';
 import { DisplayedCall } from '../../models/call/displayedCall';
 import { AmplitudeService } from '../../services/amplitude/amplitude.service';
 import { CallService } from '../../services/call/call.service';
+import { HotjarService } from '../../services/hotjar/hotjar.service';
 import { OptimizationService } from '../../services/optimization/optimization.service';
 
 @Component({
@@ -43,6 +44,7 @@ export class CallsComponent implements OnInit {
   private readonly matDialog = inject(MatDialog);
   private readonly matomoTracker = inject(MatomoTracker);
   private readonly amplitudeService = inject(AmplitudeService);
+  private readonly hotjarService = inject(HotjarService);
 
   ngOnInit() {
     this.loadCalls();
@@ -52,6 +54,7 @@ export class CallsComponent implements OnInit {
     const event = 'scheduleCalls';
     this.matomoTracker.trackEvent(this.trackingCategory, event);
     this.amplitudeService.track({ event_type: event });
+    this.hotjarService.track(event);
 
     this.currentOptimizationEnded = false;
     this.optimizationService
@@ -70,6 +73,7 @@ export class CallsComponent implements OnInit {
     const event = 'openCallDialog';
     this.matomoTracker.trackEvent(this.trackingCategory, event);
     this.amplitudeService.track({ event_type: event });
+    this.hotjarService.track(event);
 
     const dialogRef = this.matDialog.open<
       CreateCallDialogComponent,
