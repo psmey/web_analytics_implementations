@@ -1,6 +1,6 @@
 # Web Analytics Implementations
 
-Sample implementations of different web analytics technolgies.
+Sample implementations of different web analytics technolgies based on a client for the PowerOpt API from the FLS GmbH.
 
 ## 📦 Prerequisites
 
@@ -8,8 +8,7 @@ Make sure [`Node.js`](https://nodejs.org/en) [v^18.19.1 or newer](https://angula
 
 ## 🛠️ Set-up
 
-Before running the application create the respective files `environment.development.ts` and `environment.production.ts`.
-Add the respective values to the environment variables.
+Before running the application create the respective files `environment.development.ts` and `environment.production.ts` in the `src/environments` folder and add the values for the environment variables.
 
 ## ⚙️ Running the Application
 
