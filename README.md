@@ -1,6 +1,6 @@
 # Web Analytics Implementations
 
-Sample implementations of different web analytics technolgies based on a client for the PowerOpt API from the FLS GmbH.
+Sample implementations of different web analytics technolgies in a simple field service management client.
 
 ## 📦 Prerequisites
 
